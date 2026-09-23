@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGuard | Admin Ticket Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-6 lg:p-8">
+
+    <header class="max-w-7xl mx-auto border-b border-slate-800 pb-4 mb-8 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <div class="h-3 w-3 bg-cyan-400 rounded-full animate-pulse"></div>
+            <span class="font-bold tracking-wider text-lg text-slate-100">CYBER<span class="text-cyan-400">GUARD</span> // ADMIN TICKET VIEWER</span>
+        </div>
+        <a href="/" class="text-xs font-mono bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg text-cyan-400 hover:bg-slate-800 transition">
+            ← Back to Main Dashboard
+        </a>
+    </header>
+
+    <main class="max-w-7xl mx-auto space-y-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+            <h1 class="text-xl font-bold text-white mb-2">Submitted Support Tickets</h1>
+            <p class="text-slate-400 text-xs mb-6">Real-time log of all false positive reports and technical support inquiries.</p>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-800 text-xs font-mono text-slate-400 uppercase">
+                            <th class="py-3 px-4">ID</th>
+                            <th class="py-3 px-4">User Email</th>
+                            <th class="py-3 px-4">Category</th>
+                            <th class="py-3 px-4">Description</th>
+                            <th class="py-3 px-4">Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60 text-sm font-mono">
+                        {% if tickets %}
+                            {% for ticket in tickets %}
+                            <tr class="hover:bg-slate-800/30 transition">
+                                <td class="py-4 px-4 text-cyan-400">#{{ ticket[0] }}</td>
+                                <td class="py-4 px-4 text-slate-300">{{ ticket[1] }}</td>
+                                <td class="py-4 px-4">
+                                    <span class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs px-2.5 py-1 rounded-full">
+                                        {{ ticket[2] }}
+                                    </span>
+                                </td>
+                                <td class="py-4 px-4 text-slate-300 max-w-xs truncate">{{ ticket[3] }}</td>
+                                <td class="py-4 px-4 text-xs text-slate-500">{{ ticket[4] }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="py-8 text-center text-slate-500 text-xs">
+                                    // No support tickets found in database.
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
+
+#http://127.0.0.1:5000/admin/tickets# /n
+#http://127.0.0.1:5000#
+
