@@ -296,7 +296,7 @@
             }
 
             try {
-                const response = await fetch('http://127.0.0.1:5000/support-ticket', {
+                const response = await fetch('https://onrender.com/support-ticket', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, issue_type, message })
