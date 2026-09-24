@@ -6,7 +6,7 @@ import sqlite3
 from datetime import datetime
 
 app = flask.Flask(__name__)
-CORS(app)  # Enable Cross-Origin Resource Sharing
+CORS(app, resources={r"/*": {"origins": "*"}})  # Enable Cross-Origin Resource Sharing
 
 # 1. Initialize SQLite Database Table for Support Tickets
 def init_db():
