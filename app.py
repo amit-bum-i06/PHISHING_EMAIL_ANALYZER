@@ -100,7 +100,7 @@ def home():
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
-    data = flask.request.json
+    data = flask.request.get_json(silent=True) or {}
     content = data.get('content', '')
     vector_type = data.get('vector_type', 'email')
     human_Override = data.get('human_Override', False)
