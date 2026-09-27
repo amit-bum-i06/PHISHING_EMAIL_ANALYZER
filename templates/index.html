@@ -357,10 +357,30 @@
 
     <script>
         let currentVector = 'email';
+        const RENDER_BACKEND = 'https://phishing-email-analyzer-lho8.onrender.com';
 
-        const API_BASE = (window.location.protocol === 'file:' || window.location.port === '5500')
-            ? 'https://phishing-email-analyzer-lho8.onrender.com'
-            : '';
+        // Resilient API helper: tries current origin first (when served over HTTP/HTTPS),
+        // then falls back to local port 10000 or the live Render deployment automatically.
+        async function apiFetch(endpoint, options = {}) {
+            const candidates = [];
+            if (window.location.protocol.startsWith('http') && window.location.port !== '5500') {
+                candidates.push('');
+            }
+            candidates.push('http://127.0.0.1:10000', RENDER_BACKEND);
+
+            let lastError = null;
+            for (const base of [...new Set(candidates)]) {
+                try {
+                    const res = await fetch(`${base}${endpoint}`, options);
+                    if (res.ok || res.status === 400 || res.status === 401) {
+                        return { res, base };
+                    }
+                } catch (err) {
+                    lastError = err;
+                }
+            }
+            throw lastError || new Error('All backend endpoints unreachable');
+        }
 
         const SAMPLE_PAYLOADS = {
             email: "From: security-alert@admin-secure-spoof.com\nSubject: URGENT: Verify your account immediately\n\nDear Customer, your corporate account has been suspended due to unauthorized login attempts. Click below immediately to complete a password reset:\nhttp://192.168.44.12/login-verify or https://bit.ly/corp-reset-auth",
@@ -458,15 +478,11 @@
             }
 
             try {
-                const response = await fetch(`${API_BASE}/analyze`, {
+                const { res: response } = await apiFetch('/analyze', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ content, vector_type: currentVector, human_Override, analystNotes })
                 });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
 
                 const result = await response.json();
 
@@ -516,7 +532,7 @@
         async function loadScamRadar() {
             const tbody = document.getElementById('scamFeedTableBody');
             try {
-                const response = await fetch(`${API_BASE}/get-scams`);
+                const { res: response } = await apiFetch('/get-scams');
                 const data = await response.json();
                 const scams = data.scams || [];
 
@@ -554,7 +570,7 @@
             }
 
             try {
-                const response = await fetch(`${API_BASE}/submit-scam`, {
+                const { res: response } = await apiFetch('/submit-scam', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ indicator, scam_type, reporter })
@@ -566,7 +582,7 @@
                 statusMsg.classList.remove('hidden');
 
                 document.getElementById('scamIndicator').value = '';
-                loadScamRadar();
+                await loadScamRadar();
 
                 setTimeout(() => {
                     statusMsg.classList.add('hidden');
@@ -588,15 +604,11 @@
             }
 
             try {
-                const response = await fetch(`${API_BASE}/support-ticket`, {
+                const { res: response } = await apiFetch('/support-ticket', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, issue_type, message })
                 });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
 
                 const result = await response.json();
                 const statusMsg = document.getElementById('supportStatusMsg');
@@ -629,7 +641,7 @@
             const errorEl = document.getElementById('adminAuthError');
 
             try {
-                const response = await fetch(`${API_BASE}/admin/login`, {
+                const { res: response, base } = await apiFetch('/admin/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ passcode })
@@ -637,7 +649,7 @@
 
                 const result = await response.json();
                 if (response.ok && result.status === 'success') {
-                    window.location.href = `${API_BASE}${result.redirect}`;
+                    window.location.href = `${base}${result.redirect}?passcode=${encodeURIComponent(passcode)}`;
                 } else {
                     errorEl.innerText = result.message || 'Invalid passcode. Access denied.';
                     errorEl.classList.remove('hidden');

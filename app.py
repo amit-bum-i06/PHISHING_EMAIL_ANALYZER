@@ -341,7 +341,6 @@ def get_scams():
 
 @app.route('/admin/login', methods=['POST'])
 def admin_login():
-    # Support both JSON fetch requests and standard HTML form submissions
     data = flask.request.get_json(silent=True)
     if data is not None:
         passcode = (data.get('passcode') or data.get('password') or '').strip()
@@ -366,7 +365,6 @@ def admin_logout():
 @app.route('/admin/dashboard')
 @app.route('/admin/tickets')
 def admin_dashboard():
-    # Allow access if authenticated via session OR if accessed with ?passcode=admin123
     if not flask.session.get('admin_authenticated'):
         if flask.request.args.get('passcode') == 'admin123':
             flask.session['admin_authenticated'] = True
