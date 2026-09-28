@@ -53,11 +53,11 @@
                     Multi-Vector Threat Intelligence & Cryptographic SOC Hub
                 </h1>
                 <p class="text-slate-400 text-sm mt-1">
-                    Inspect Email payloads, SMS smishing strings, and Audio Vishing transcripts with immutable SHA-256 ledger verification.
+                    Inspect Email payloads, SMS smishing strings, and Malicious Phishing URLs with immutable SHA-256 ledger verification.
                 </p>
             </div>
             <div class="flex flex-wrap gap-2">
-                <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono font-medium px-3 py-1 rounded-full">3-Vector Heuristic Engine</span>
+                <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono font-medium px-3 py-1 rounded-full">URL & Payload Heuristics</span>
                 <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-mono font-medium px-3 py-1 rounded-full">SHA-256 Audit Chain</span>
                 <span class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-mono font-medium px-3 py-1 rounded-full">Crowdsourced Scam Radar</span>
             </div>
@@ -77,7 +77,7 @@
         </div>
 
         <!-- ========================================================= -->
-        <!-- SECTION 1: THREAT ANALYZER SCANNER (EMAIL / SMS / VISHING) -->
+        <!-- SECTION 1: THREAT ANALYZER SCANNER (EMAIL / SMS / URL)    -->
         <!-- ========================================================= -->
         <div id="scannerSection" class="space-y-6">
             <!-- Vector Sub-tabs + Sample Loader -->
@@ -89,8 +89,8 @@
                     <button onclick="switchVector('sms')" id="smsTabBtn" class="px-4 py-2 rounded-lg text-xs font-semibold transition duration-200 bg-slate-900 text-slate-400 border border-slate-800 hover:text-white">
                         📱 SMS / Smishing Vector
                     </button>
-                    <button onclick="switchVector('vishing')" id="vishingTabBtn" class="px-4 py-2 rounded-lg text-xs font-semibold transition duration-200 bg-slate-900 text-slate-400 border border-slate-800 hover:text-white">
-                        🎙️ Audio Vishing Transcript Vector
+                    <button onclick="switchVector('url')" id="urlTabBtn" class="px-4 py-2 rounded-lg text-xs font-semibold transition duration-200 bg-slate-900 text-slate-400 border border-slate-800 hover:text-white">
+                        🔗 URL Phishing Detection
                     </button>
                 </div>
 
@@ -169,7 +169,7 @@
                         <div>
                             <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Diagnostic Telemetry & Logs:</span>
                             <div id="detailsList" class="bg-slate-950 border border-slate-800 p-4 rounded-xl min-h-[140px] font-mono text-xs space-y-2.5">
-                                <p class="text-slate-600">// CyberGuard v3.0 initialized. Select Email, SMS, or Vishing vector and submit payload...</p>
+                                <p class="text-slate-600">// CyberGuard v3.0 initialized. Select Email, SMS, or URL Phishing vector and submit payload...</p>
                             </div>
                         </div>
                     </div>
@@ -189,23 +189,23 @@
                         <span class="text-[10px] font-mono bg-rose-500/10 text-rose-400 border border-rose-500/20 px-2.5 py-1 rounded-full">LIVE INTEL</span>
                     </div>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        Report malicious UPI IDs, vishing phone numbers, or phishing domains to alert the regional CyberGuard community feed.
+                        Report malicious Phishing URLs, fake UPI IDs, or scam phone numbers to alert the regional CyberGuard community feed.
                     </p>
 
                     <div class="space-y-4 pt-2">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Malicious Indicator (UPI / Phone / URL)</label>
-                            <input type="text" id="scamIndicator" placeholder="e.g., fake-refund@ybl or +91-9988776655" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500">
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Malicious Indicator (URL / UPI / Phone)</label>
+                            <input type="text" id="scamIndicator" placeholder="e.g., http://paypal-verify-login.xyz or fake-refund@ybl" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500">
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Threat Classification</label>
                             <select id="scamType" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500">
+                                <option>Phishing URL / Credential Harvester</option>
                                 <option>Fake UPI Handle / Refund Scam</option>
-                                <option>Vishing / Digital Arrest Impersonation</option>
                                 <option>Smishing / KYC Suspension Link</option>
-                                <option>Phishing Domain / Credential Harvester</option>
-                                <option>Crypto / Investment Fraud Node</option>
+                                <option>Typosquatted Brand Domain</option>
+                                <option>Malware / APK Download Link</option>
                             </select>
                         </div>
 
@@ -265,20 +265,20 @@
                 <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
                     <h2 class="text-lg font-bold text-cyan-400">Documentation & Heuristic Scoring Rules</h2>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        CyberGuard v3.0 calculates cumulative penalty scores (0–100) across Email, SMS, and Audio Vishing vectors, sealing every verdict into a tamper-evident SHA-256 hash chain.
+                        CyberGuard v3.0 calculates cumulative penalty scores (0–100) across Email, SMS, and URL Phishing Detection vectors, sealing every verdict into a tamper-evident SHA-256 hash chain.
                     </p>
                     <div class="space-y-3 font-mono text-xs text-slate-300">
                         <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-                            <span class="text-emerald-400 font-bold">0 pts (Safe):</span> Clean sender headers, natural conversational tone, and zero malicious links.
+                            <span class="text-emerald-400 font-bold">0 pts (Safe):</span> Clean sender headers, standard domain structure, HTTPS encryption, and zero malicious lures.
                         </div>
                         <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-                            <span class="text-amber-400 font-bold">1 - 40 pts (Low Risk):</span> Single urgency trigger or mild anomaly requiring standard caution.
+                            <span class="text-amber-400 font-bold">1 - 40 pts (Low Risk):</span> Single urgency trigger, unencrypted HTTP link, or minor structural anomaly.
                         </div>
                         <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-                            <span class="text-orange-400 font-bold">41 - 75 pts (Medium Risk):</span> Multiple social engineering markers, URL shorteners, or KYC pressure tactics.
+                            <span class="text-orange-400 font-bold">41 - 75 pts (Medium Risk):</span> URL shorteners, high-risk TLDs (`.xyz`, `.top`, `.zip`), or social engineering pressure tactics.
                         </div>
                         <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-                            <span class="text-rose-500 font-bold">76 - 100 pts (Critical):</span> Severe header spoofing, raw IP links, or Vishing authority coercion + OTP/remote-access harvesting.
+                            <span class="text-rose-500 font-bold">76 - 100 pts (Critical):</span> Raw IP phishing hosts, brand typosquatting (`paypa1`, `g00gle`), `@` credential redirect tricks, or credential-harvesting paths.
                         </div>
                     </div>
                 </div>
@@ -289,7 +289,7 @@
                 <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
                     <h2 class="text-lg font-bold text-cyan-400">Report False Positive / Contact SOC Support</h2>
                     <p class="text-xs text-slate-400">
-                        Encountered a misclassification or need Tier-2 SOC escalation? Submit a support ticket directly to the Admin Command Center.
+                        Encountered a domain whitelist request or misclassification? Submit a support ticket directly to the Admin Command Center.
                     </p>
 
                     <div class="space-y-4">
@@ -300,16 +300,16 @@
                         <div>
                             <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Issue Category</label>
                             <select id="supportCategory" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500">
-                                <option>False Positive Report</option>
-                                <option>False Negative / Missed Threat</option>
-                                <option>Vishing Transcript Rule Tuning</option>
+                                <option>False Positive Report (Safe URL / Email)</option>
+                                <option>False Negative / Missed Phishing URL</option>
+                                <option>Domain Whitelist Request</option>
                                 <option>API Integration Inquiry</option>
                                 <option>General System Support</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Message Description</label>
-                            <textarea id="supportMessage" rows="4" placeholder="Provide details about the payload, block ID, or issue..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500"></textarea>
+                            <textarea id="supportMessage" rows="4" placeholder="Provide details about the URL, payload, block ID, or issue..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500"></textarea>
                         </div>
                         <button onclick="submitSupportTicket()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center gap-2 text-sm shadow-lg shadow-cyan-500/20">
                             Submit Support Ticket
@@ -385,7 +385,7 @@
         const SAMPLE_PAYLOADS = {
             email: "From: security-alert@admin-secure-spoof.com\nSubject: URGENT: Verify your account immediately\n\nDear Customer, your corporate account has been suspended due to unauthorized login attempts. Click below immediately to complete a password reset:\nhttp://192.168.44.12/login-verify or https://bit.ly/corp-reset-auth",
             sms: "URGENT KYC ALERT: Your bank account debit card will be blocked today! Claim your free reward bonus of Rs 25,000 and update PAN KYC immediately at https://bit.ly/kyc-fast-update",
-            vishing: "[CALL TRANSCRIPT - 00:01:14] Caller: This is Officer Vikram from Cyber Crime and Customs Department. An arrest warrant and legal action have been issued against your Aadhaar ID for a narcotics parcel. Do not disconnect the call. Stay on the line immediately, install AnyDesk screen share, and read out your 6-digit bank OTP verification code to transfer funds to our RBI safe account."
+            url: "http://secure-login.paypa1-account-verify.xyz/signin/confirm-kyc?session=auth_token_update"
         };
 
         function switchTab(tab) {
@@ -422,7 +422,7 @@
             currentVector = vector;
             const emailBtn = document.getElementById('emailTabBtn');
             const smsBtn = document.getElementById('smsTabBtn');
-            const vishingBtn = document.getElementById('vishingTabBtn');
+            const urlBtn = document.getElementById('urlTabBtn');
             const titleEl = document.getElementById('inputCardTitle');
             const formatEl = document.getElementById('inputCardFormat');
             const textareaEl = document.getElementById('payloadContent');
@@ -431,7 +431,7 @@
             const inactiveBtn = "px-4 py-2 rounded-lg text-xs font-semibold transition duration-200 bg-slate-900 text-slate-400 border border-slate-800 hover:text-white";
             emailBtn.className = inactiveBtn;
             smsBtn.className = inactiveBtn;
-            vishingBtn.className = inactiveBtn;
+            urlBtn.className = inactiveBtn;
 
             vectorBadge.innerText = `VECTOR: ${vector.toUpperCase()}`;
 
@@ -445,11 +445,11 @@
                 titleEl.innerText = "SMS / Smishing Text Verification";
                 formatEl.innerText = "FORMAT: RAW SMS STRING";
                 textareaEl.placeholder = "Paste suspicious SMS / WhatsApp message string here...";
-            } else if (vector === 'vishing') {
-                vishingBtn.className = "px-4 py-2 rounded-lg text-xs font-semibold transition duration-200 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40";
-                titleEl.innerText = "Audio Vishing Call Transcript Parser";
-                formatEl.innerText = "FORMAT: STT CALL TRANSCRIPT";
-                textareaEl.placeholder = "Paste speech-to-text phone call transcript (e.g., Digital Arrest, OTP request, AnyDesk coercion)...";
+            } else if (vector === 'url') {
+                urlBtn.className = "px-4 py-2 rounded-lg text-xs font-semibold transition duration-200 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40";
+                titleEl.innerText = "Deep URL Phishing & Domain Inspector";
+                formatEl.innerText = "FORMAT: HTTP / HTTPS / DOMAIN";
+                textareaEl.placeholder = "Paste suspicious URL or domain link to inspect (e.g., http://secure-login.paypa1-verify.xyz/login)...";
             }
         }
 
@@ -565,7 +565,7 @@
             const reporter = document.getElementById('scamReporter').value.trim() || 'Anonymous Citizen';
 
             if (!indicator) {
-                alert('Please enter a malicious UPI handle, phone number, or domain.');
+                alert('Please enter a malicious URL, UPI handle, or phone number.');
                 return;
             }
 
